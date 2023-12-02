@@ -38,7 +38,8 @@ const App = () => {
     };
 
     const paginate = (action) => {
-        const totalPages = Math.ceil(users.length / 10);
+        let totalFilteredRows = filteredUsers.length;
+        const totalPages = Math.ceil(totalFilteredRows / 10);
 
         switch (action) {
             case 'first':
@@ -82,9 +83,15 @@ const App = () => {
     };
 
     const onSelectAll = () => {
-        setSelectAll(!selectAll);
-        const allUserIds = users.map(user => user.id);
-        setSelectedRows(selectAll ? [] : allUserIds);
+      setSelectAll(!selectAll);
+
+      const currentPageRows = filteredUsers
+        .slice((currentPage - 1) * 10, currentPage * 10)
+        .map((user) => user.id);
+
+      setSelectedRows((prevSelectedRows) =>
+        selectAll ? prevSelectedRows.filter((id) => !currentPageRows.includes(id)) : [...prevSelectedRows, ...currentPageRows]
+      );
     };
 
     const onSelectRow = (userId) => {
@@ -110,6 +117,7 @@ const App = () => {
 
     const filteredUsers = users.filter(
         (user) =>
+            user.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.role.toLowerCase().includes(searchQuery.toLowerCase())
@@ -118,15 +126,16 @@ const App = () => {
     return (
         <div>
             <input
+                className="search-input"
+                size= "50"
                 type="text"
                 placeholder="Search"
                 value={searchQuery}
                 onChange={onSearch}
             />
-            <button className="search-icon">Search</button>
             <div className="delete-selected-container">
                 <button onClick={onDeleteSelected}>
-                    <DeleteIcon />
+                    <DeleteIcon className="delete-icon"/>
                 </button>
             </div>
 
@@ -151,7 +160,7 @@ const App = () => {
                     />
 
                     <div className="selected-count-container">
-                        <span>{`${selectedRows.length} of ${users.length} row(s) selected`}</span>
+                        <span>{`${selectedRows.length} of ${filteredUsers.length} row(s) selected`}</span>
                     </div>
 
                     <Pagination

@@ -8,13 +8,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         if (page === 'first' || page === 'previous' || page === 'next' || page === 'last') {
             onPageChange(page);
         } else {
-            onPageChange(page); // Convert the page number to a number and pass it to the handler
+            onPageChange(page);
         }
     };
 
     return (
         <div className="pagination-container">
-            <span className="page-info">{`Page ${currentPage} of ${totalPages}`}</span>
+            <span className="page-info"><b>{`Page ${currentPage} of ${totalPages}`}</b></span>
             <button onClick={() => handlePageChange('first')}>{'<<'}</button>
             <button onClick={() => handlePageChange('previous')}>{'<'}</button>
             <div className="page-numbers">

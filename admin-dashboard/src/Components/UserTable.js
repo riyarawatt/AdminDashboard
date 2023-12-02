@@ -2,6 +2,7 @@ import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
+import '../App.css';
 
 const UserTable = ({
     users,
@@ -66,7 +67,17 @@ const UserTable = ({
                                 user.email
                             )}
                         </td>
-                        <td>{user.role}</td>
+                        <td>
+                            {editableRow === user.id ? (
+                                <input
+                                    type="text"
+                                    value={editedData.role || user.role}
+                                    onChange={(e) => setEditedData({ ...editedData, role: e.target.value })}
+                                />
+                            ) : (
+                                user.role
+                            )}
+                        </td>
                         <td>
                             {editableRow === user.id ? (
                                 <button onClick={() => onSave(user.id, editedData)}>
@@ -78,7 +89,7 @@ const UserTable = ({
                                 </button>
                             )}
                             <button onClick={() => onDelete(user.id)}>
-                                <DeleteIcon />
+                                <DeleteIcon className="row-delete-icon"/>
                             </button>
                         </td>
                     </tr>
