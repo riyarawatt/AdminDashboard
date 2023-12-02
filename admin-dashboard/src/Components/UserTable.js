@@ -13,6 +13,7 @@ const UserTable = ({
     selectedRows,
     onSelectAll,
     editableRow,
+
     editedData,
     setEditedData,
 }) => {

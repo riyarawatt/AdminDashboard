@@ -6,8 +6,6 @@ import '@emotion/react';
 import '@emotion/styled';
 import '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
 
 const App = () => {
     const [users, setUsers] = useState([]);
